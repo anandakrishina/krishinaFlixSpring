@@ -1,5 +1,6 @@
 package com.oracle.krishinaflix;
 
+import com.oracle.krishinaflix.model.DadosEpisodio;
 import com.oracle.krishinaflix.model.DadosSeries;
 import com.oracle.krishinaflix.service.ConsumirAPI;
 import com.oracle.krishinaflix.service.ConverterDados;
@@ -19,9 +20,13 @@ public class KrishinaflixApplication implements CommandLineRunner {
 		var consumirAPI = new ConsumirAPI();
 		var json = consumirAPI.obterDados("https://www.omdbapi.com/?t=friends&apikey=8cdb0b9c");
 		var converterDados = new ConverterDados();
-		var dados = converterDados.obterDados(json,DadosSeries.class);
+		var dadosSeries = converterDados.obterDados(json,DadosSeries.class);
 
-		System.out.println(dados);
+		System.out.println(dadosSeries);
+
+		json = consumirAPI.obterDados("https://www.omdbapi.com/?t=friends&season=1&episode=2&apikey=8cdb0b9c");
+		var dadosEpisodio = converterDados.obterDados(json, DadosEpisodio.class);
+		System.out.println(dadosEpisodio);
 
 	}
 }
