@@ -3,6 +3,7 @@ package com.oracle.krishinaflix;
 import com.oracle.krishinaflix.model.DadosEpisodio;
 import com.oracle.krishinaflix.model.DadosSeries;
 import com.oracle.krishinaflix.model.DadosTemporada;
+import com.oracle.krishinaflix.principal.Principal;
 import com.oracle.krishinaflix.service.ConsumirAPI;
 import com.oracle.krishinaflix.service.ConverterDados;
 import org.springframework.boot.CommandLineRunner;
@@ -21,28 +22,11 @@ public class KrishinaflixApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var consumirAPI = new ConsumirAPI();
-		var json = consumirAPI.obterDados("https://www.omdbapi.com/?t=friends&apikey=8cdb0b9c");
-		var converterDados = new ConverterDados();
-		var dadosSeries = converterDados.obterDados(json,DadosSeries.class);
 
-		System.out.println(dadosSeries);
-
-		json = consumirAPI.obterDados("https://www.omdbapi.com/?t=friends&season=1&episode=2&apikey=8cdb0b9c");
-		var dadosEpisodio = converterDados.obterDados(json, DadosEpisodio.class);
-		System.out.println(dadosEpisodio);
-
-		List<DadosTemporada> temporadas = new ArrayList<>();
+        Principal principal = new Principal();
+        principal.exibirMenu();
 
 
-
-		for (int i = 1; i <= dadosSeries.totalTemporadas(); i++){
-			json = consumirAPI.obterDados("https://www.omdbapi.com/?t=friends&season=" + i + "&apikey=8cdb0b9c");
-			DadosTemporada dadosTemporada = converterDados.obterDados(json, DadosTemporada.class);
-			temporadas.add(dadosTemporada);
-		}
-
-		temporadas.forEach(System.out::println);
 
 	}
 }
