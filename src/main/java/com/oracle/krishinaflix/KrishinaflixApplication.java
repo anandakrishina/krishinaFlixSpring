@@ -11,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class KrishinaflixApplication implements CommandLineRunner {
@@ -22,6 +24,9 @@ public class KrishinaflixApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+
+			// código para filtragem.
 
         Principal principal = new Principal();
         principal.exibirMenu();

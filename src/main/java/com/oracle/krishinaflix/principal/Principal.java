@@ -11,10 +11,7 @@ import org.springframework.cglib.core.Local;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -43,7 +40,7 @@ public class Principal {
             temporadas.add(dadosTemporada);
         }
 
-        temporadas.forEach(System.out::println);
+        //temporadas.forEach(System.out::println);
 
 //        for (int i = 0; i < dadosSeries.totalTemporadas(); i++) {
 //            List<DadosEpisodio> episodiosTemporada = temporadas.get(i).episodiosList();
@@ -62,18 +59,22 @@ public class Principal {
 //
         dadosEpisodioList.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .peek(e-> System.out.println("Filtered value: " + e))
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                .limit(5)
+                .peek(e-> System.out.println("Sorted value: " + e))
+                .limit(10)
+                .map(e-> e.titulo().toUpperCase())
+                .peek(e-> System.out.println("Mapped value: " + e))
                 .forEach(System.out::println);
 
-        //System.out.println(dadosEpisodioList);
+        System.out.println(dadosEpisodioList);
 
         List<Episodios> episodios = temporadas.stream()
                 .flatMap(t -> t.episodiosList().stream()
                         .map(d -> new Episodios(t.numero(), d)))
                 .collect(Collectors.toList());
 
-        episodios.forEach(System.out::println);
+        //episodios.forEach(System.out::println);
 
         System.out.println("A partir de que ano você deseja ver os episódios?");
         var ano = scanner.nextInt();
@@ -91,9 +92,19 @@ public class Principal {
                                 + " Data de lançamento: " + e.getDataLancamento().format(dateTimeFormatter) + "\n"
                 ));
 
+        System.out.println("Digite o título: ");
+        var trechoTitulo = scanner.nextLine();
+        Optional<Episodios> first = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
+                .findFirst();
 
+        System.out.println(first);
 
+        var firstOutro = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
+                .collect(Collectors.toList());
 
+        firstOutro.forEach(System.out::println);
     }
 
 }
